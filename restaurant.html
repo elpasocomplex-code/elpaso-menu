@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Paso Restaurant Menu</title>
+<style>
+.elpaso-restaurant{width:100%;max-width:800px;margin:0 auto;padding:10px 14px 140px;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;color:#222}
+.elpaso-restaurant *{box-sizing:border-box}
+.back-link{display:inline-block;margin-bottom:14px;padding:9px 14px;background:#eef3fc;color:#123b8f !important;text-decoration:none !important;border-radius:8px;font-size:14px;font-weight:700;border:1px solid #d5dbe4}
+.back-link:hover{background:#dde6f5}
+.elpaso-notice{margin:0 0 22px;padding:13px 14px;background:#fff5f5;border-left:4px solid #d60000;color:#d60000;font-size:14px;line-height:1.5;font-weight:700;text-align:center;border-radius:4px}
+.elpaso-food-card{background:#fff;border:1px solid #e6e6e6;border-radius:14px;overflow:hidden;margin-bottom:26px;box-shadow:0 3px 12px rgba(0,0,0,0.06)}
+.elpaso-food-image{display:block;width:100%;height:230px;object-fit:cover;background:#f0f0f0}
+.elpaso-food-body{padding:18px}
+.elpaso-food-title{margin:0 0 6px;color:#123b8f;font-size:20px;font-weight:800;line-height:1.3}
+.elpaso-food-desc{margin:0 0 16px;color:#666;font-size:13.5px;line-height:1.5}
+.elpaso-size-label{display:block;margin-bottom:8px;font-size:13px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:0.4px}
+.elpaso-size-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.elpaso-size-option{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.elpaso-size-option .size-box{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;border:2px solid #d5dbe4;border-radius:10px;background:#fff;text-align:center;transition:all 0.18s ease;min-height:68px}
+.elpaso-size-option .size-name{font-size:14px;font-weight:700;color:#333;margin-bottom:3px}
+.elpaso-size-option .size-price{font-size:12.5px;color:#666;font-weight:600}
+.elpaso-size-option.selected .size-box{border-color:#123b8f;background:#eef3fc;box-shadow:0 0 0 3px rgba(18,59,143,0.12)}
+.elpaso-size-option.selected .size-box .size-name{color:#123b8f}
+.elpaso-size-option.selected .size-box .size-price{color:#123b8f}
+.elpaso-order-controls{display:flex;gap:10px;align-items:stretch;margin-bottom:10px}
+.elpaso-quantity{display:flex;align-items:center;border:2px solid #d5dbe4;border-radius:10px;overflow:hidden;background:#fff;flex-shrink:0}
+.elpaso-quantity button{width:46px;height:52px;border:none;background:#f2f4f8;color:#123b8f;font-size:24px;font-weight:700;cursor:pointer}
+.elpaso-quantity span{min-width:46px;text-align:center;font-weight:800;font-size:18px;color:#222;display:inline-block}
+.elpaso-add-button{flex:1;padding:14px 18px;border:none;border-radius:10px;background:#123b8f;color:#fff;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:0.3px}
+.elpaso-add-button:active{transform:scale(0.98)}
+.elpaso-live-subtotal{margin-top:6px;font-size:13px;color:#666;text-align:right}
+.elpaso-live-subtotal strong{color:#123b8f;font-size:15px}
+.elpaso-added-message{display:none;margin-top:10px;padding:10px 14px;text-align:center;background:#e8f7ee;color:#16803c;font-size:14px;font-weight:700;border-radius:8px}
+.elpaso-whatsapp{text-align:center;padding:10px 0}
+.elpaso-whatsapp h2{color:#222;font-size:19px;line-height:1.4;margin:0 0 16px}
+.elpaso-whatsapp-button{display:inline-block;background:#25D366;color:#fff !important;text-decoration:none !important;font-size:16px;font-weight:700;padding:14px 26px;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.18)}
+.elpaso-phone{margin-top:12px;color:#555;font-size:15px}
+.elpaso-cart-button{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9998;width:calc(100% - 28px);max-width:460px;padding:14px 18px;border:none;border-radius:14px;background:#123b8f;color:#fff;font-size:15px;font-weight:800;box-shadow:0 6px 20px rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.elpaso-cart-button .cart-left{display:flex;align-items:center;gap:8px}
+.elpaso-cart-count{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border-radius:13px;background:#fff;color:#123b8f;font-size:13px;font-weight:800}
+.elpaso-cart-total-inline{font-size:15px;font-weight:800}
+.elpaso-cart-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);padding:15px;box-sizing:border-box;overflow-y:auto}
+.elpaso-cart-panel{width:100%;max-width:520px;margin:20px auto;background:#fff;border-radius:16px;padding:20px;box-sizing:border-box;box-shadow:0 10px 40px rgba(0,0,0,0.35)}
+.elpaso-cart-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+.elpaso-cart-header h2{margin:0;color:#123b8f;font-size:21px}
+.elpaso-close-cart{width:38px;height:38px;border:none;border-radius:50%;background:#f0f0f0;color:#333;font-size:24px;font-weight:700;cursor:pointer;line-height:1}
+.elpaso-cart-items{margin-bottom:15px;max-height:40vh;overflow-y:auto}
+.elpaso-cart-item{padding:14px 0;border-bottom:1px solid #eee}
+.elpaso-cart-item-name{font-weight:800;color:#222;font-size:15px;margin-bottom:4px}
+.elpaso-cart-item-details{color:#555;font-size:13.5px;line-height:1.5}
+.elpaso-cart-item-details .item-subtotal{color:#123b8f;font-weight:700;margin-top:3px}
+.elpaso-cart-item-remove{margin-top:8px;padding:6px 12px;border:none;background:#ffe8e8;color:#c00000;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer}
+.elpaso-cart-total{padding:16px 0;text-align:right;font-size:21px;font-weight:800;color:#123b8f;border-bottom:1px solid #eee;margin-bottom:16px}
+.elpaso-customer-input{width:100%;padding:13px 14px;margin-bottom:10px;border:2px solid #d5dbe4;border-radius:10px;box-sizing:border-box;font-size:15px;font-family:Arial,Helvetica,sans-serif}
+.elpaso-customer-note{width:100%;min-height:80px;padding:13px 14px;margin-bottom:14px;border:2px solid #d5dbe4;border-radius:10px;box-sizing:border-box;font-size:15px;font-family:Arial,Helvetica,sans-serif;resize:vertical}
+.elpaso-send-order{width:100%;padding:15px;border:none;border-radius:10px;background:#25D366;color:#fff;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:0.3px}
+.elpaso-empty-cart{padding:30px 10px;text-align:center;color:#888;font-size:15px}
+@media screen and (max-width:480px){
+.elpaso-restaurant{padding:8px 10px 130px}
+.elpaso-food-image{height:200px}
+.elpaso-food-body{padding:15px}
+.elpaso-food-title{font-size:18px}
+.elpaso-size-options{gap:6px}
+.elpaso-size-option .size-box{padding:10px 4px;min-height:62px}
+.elpaso-size-option .size-name{font-size:13px}
+.elpaso-size-option .size-price{font-size:11.5px}
+.elpaso-quantity button{width:42px;height:50px;font-size:22px}
+.elpaso-quantity span{min-width:40px;font-size:17px}
+.elpaso-add-button{font-size:14px;padding:13px 12px}
+.elpaso-cart-button{bottom:12px;padding:13px 15px;font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<div class="elpaso-restaurant">
+
+  <a class="back-link" href="index.html">← Back to Menu</a>
+
+  <div class="elpaso-notice">
+    PLEASE NOTE: THESE PRICES ARE STRICTLY FOR OUR DINE-IN RESTAURANT CUSTOMERS. TAKE-AWAY PRICES AND PRICES IN THE HOTEL ROOMS MAY BE DIFFERENT.
+  </div>
+
+  <div class="elpaso-food-card">
+    <img alt="Fried Chicken with Fried Rice" class="elpaso-food-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791287550/IMG_4250.jpg">
+    <div class="elpaso-food-body">
+      <h2 class="elpaso-food-title">FRIED CHICKEN WITH FRIED RICE</h2>
+      <p class="elpaso-food-desc">Choose your plate size and quantity below.</p>
+      <span class="elpaso-size-label">1. Select plate size</span>
+      <div class="elpaso-size-options" id="sizeGroup1">
+        <div class="elpaso-size-option selected" data-item="1" data-size="Regular" data-price="1500" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Regular</span><span class="size-price">1,500 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="1" data-size="Medium" data-price="2000" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Medium</span><span class="size-price">2,000 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="1" data-size="Large" data-price="2500" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Large</span><span class="size-price">2,500 FCFA</span></div></div>
+      </div>
+      <span class="elpaso-size-label">2. Select quantity</span>
+      <div class="elpaso-order-controls">
+        <div class="elpaso-quantity">
+          <button type="button" onclick="changeQty(1,-1)">-</button>
+          <span id="qty1">1</span>
+          <button type="button" onclick="changeQty(1,1)">+</button>
+        </div>
+        <button type="button" class="elpaso-add-button" onclick="addToOrder(1,'FRIED CHICKEN WITH FRIED RICE')">ADD TO ORDER</button>
+      </div>
+      <div class="elpaso-live-subtotal">Subtotal: <strong id="subtotal1">1,500 FCFA</strong></div>
+      <div id="added1" class="elpaso-added-message">Added to your order</div>
+    </div>
+  </div>
+
+  <div class="elpaso-food-card">
+    <img alt="Fried Chicken with Chips" class="elpaso-food-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791287554/IMG_4260.jpg">
+    <div class="elpaso-food-body">
+      <h2 class="elpaso-food-title">FRIED CHICKEN WITH CHIPS</h2>
+      <p class="elpaso-food-desc">Choose your plate size and quantity below.</p>
+      <span class="elpaso-size-label">1. Select plate size</span>
+      <div class="elpaso-size-options" id="sizeGroup2">
+        <div class="elpaso-size-option selected" data-item="2" data-size="Regular" data-price="1500" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Regular</span><span class="size-price">1,500 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="2" data-size="Medium" data-price="2000" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Medium</span><span class="size-price">2,000 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="2" data-size="Large" data-price="2500" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Large</span><span class="size-price">2,500 FCFA</span></div></div>
+      </div>
+      <span class="elpaso-size-label">2. Select quantity</span>
+      <div class="elpaso-order-controls">
+        <div class="elpaso-quantity">
+          <button type="button" onclick="changeQty(2,-1)">-</button>
+          <span id="qty2">1</span>
+          <button type="button" onclick="changeQty(2,1)">+</button>
+        </div>
+        <button type="button" class="elpaso-add-button" onclick="addToOrder(2,'FRIED CHICKEN WITH CHIPS')">ADD TO ORDER</button>
+      </div>
+      <div class="elpaso-live-subtotal">Subtotal: <strong id="subtotal2">1,500 FCFA</strong></div>
+      <div id="added2" class="elpaso-added-message">Added to your order</div>
+    </div>
+  </div>
+
+  <div class="elpaso-food-card">
+    <img alt="Fufu and Bekang" class="elpaso-food-image" src="https://res.cloudinary.com/kqymjysn/image/upload/f_auto,q_auto/IMG_4252">
+    <div class="elpaso-food-body">
+      <h2 class="elpaso-food-title">FUFU &amp; BEKANG</h2>
+      <p class="elpaso-food-desc">Choose your plate size and quantity below.</p>
+      <span class="elpaso-size-label">1. Select plate size</span>
+      <div class="elpaso-size-options" id="sizeGroup3">
+        <div class="elpaso-size-option selected" data-item="3" data-size="Regular" data-price="1000" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Regular</span><span class="size-price">1,000 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="3" data-size="Medium" data-price="1500" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Medium</span><span class="size-price">1,500 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="3" data-size="Large" data-price="2000" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Large</span><span class="size-price">2,000 FCFA</span></div></div>
+      </div>
+      <span class="elpaso-size-label">2. Select quantity</span>
+      <div class="elpaso-order-controls">
+        <div class="elpaso-quantity">
+          <button type="button" onclick="changeQty(3,-1)">-</button>
+          <span id="qty3">1</span>
+          <button type="button" onclick="changeQty(3,1)">+</button>
+        </div>
+        <button type="button" class="elpaso-add-button" onclick="addToOrder(3,'FUFU & BEKANG')">ADD TO ORDER</button>
+      </div>
+      <div class="elpaso-live-subtotal">Subtotal: <strong id="subtotal3">1,000 FCFA</strong></div>
+      <div id="added3" class="elpaso-added-message">Added to your order</div>
+    </div>
+  </div>
+
+  <div class="elpaso-food-card">
+    <img alt="Garri and Eru" class="elpaso-food-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791286800/IMG_4245.jpg">
+    <div class="elpaso-food-body">
+      <h2 class="elpaso-food-title">GARRI &amp; ERU</h2>
+      <p class="elpaso-food-desc">Choose your plate size and quantity below.</p>
+      <span class="elpaso-size-label">1. Select plate size</span>
+      <div class="elpaso-size-options" id="sizeGroup4">
+        <div class="elpaso-size-option selected" data-item="4" data-size="Regular" data-price="1000" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Regular</span><span class="size-price">1,000 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="4" data-size="Medium" data-price="1500" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Medium</span><span class="size-price">1,500 FCFA</span></div></div>
+        <div class="elpaso-size-option" data-item="4" data-size="Large" data-price="2000" onclick="selectSize(this)"><div class="size-box"><span class="size-name">Large</span><span class="size-price">2,000 FCFA</span></div></div>
+      </div>
+      <span class="elpaso-size-label">2. Select quantity</span>
+      <div class="elpaso-order-controls">
+        <div class="elpaso-quantity">
+          <button type="button" onclick="changeQty(4,-1)">-</button>
+          <span id="qty4">1</span>
+          <button type="button" onclick="changeQty(4,1)">+</button>
+        </div>
+        <button type="button" class="elpaso-add-button" onclick="addToOrder(4,'GARRI & ERU')">ADD TO ORDER</button>
+      </div>
+      <div class="elpaso-live-subtotal">Subtotal: <strong id="subtotal4">1,000 FCFA</strong></div>
+      <div id="added4" class="elpaso-added-message">Added to your order</div>
+    </div>
+  </div>
+
+  <div class="elpaso-whatsapp">
+    <h2>Thank you for exploring our digital menu!</h2>
+    <a class="elpaso-whatsapp-button" href="https://wa.me/237678639128" rel="noopener" target="_blank">Chat with us on WhatsApp</a>
+    <div class="elpaso-phone">Direct Call: <strong>6 78 63 91 28</strong></div>
+  </div>
+
+</div>
+
+<button type="button" class="elpaso-cart-button" onclick="openOrderPanel()">
+  <span class="cart-left">VIEW MY ORDER <span id="elpasoCartCount" class="elpaso-cart-count">0</span></span>
+  <span class="elpaso-cart-total-inline" id="elpasoCartTotalInline">0 FCFA</span>
+</button>
+
+<div id="elpasoCartOverlay" class="elpaso-cart-overlay">
+  <div class="elpaso-cart-panel">
+    <div class="elpaso-cart-header">
+      <h2>Your El Paso Order</h2>
+      <button type="button" class="elpaso-close-cart" onclick="closeOrderPanel()">X</button>
+    </div>
+    <div id="elpasoCartItems" class="elpaso-cart-items">
+      <div class="elpaso-empty-cart">Your order is currently empty.</div>
+    </div>
+    <div id="elpasoCartTotal" class="elpaso-cart-total">TOTAL: 0 FCFA</div>
+    <input id="elpasoCustomerName" class="elpaso-customer-input" type="text" placeholder="Your name">
+    <input id="elpasoCustomerLocation" class="elpaso-customer-input" type="text" placeholder="Your exact destination">
+    <textarea id="elpasoCustomerNote" class="elpaso-customer-note" placeholder="Special instructions (optional)"></textarea>
+    <button type="button" class="elpaso-send-order" onclick="sendOrderToWhatsApp()">SEND ORDER TO EL PASO RESTAURANT</button>
+  </div>
+</div>
+
+<script>
+var elPasoOrder=[];
+
+function selectSize(element){
+  var itemNum=element.getAttribute("data-item");
+  var group=document.getElementById("sizeGroup"+itemNum);
+  var options=group.querySelectorAll(".elpaso-size-option");
+  for(var i=0;i<options.length;i++){options[i].classList.remove("selected")}
+  element.classList.add("selected");
+  updateLiveSubtotal(itemNum);
+}
+
+function getSelectedSize(itemNum){
+  var group=document.getElementById("sizeGroup"+itemNum);
+  var selected=group.querySelector(".elpaso-size-option.selected");
+  if(!selected)selected=group.querySelector(".elpaso-size-option");
+  return{size:selected.getAttribute("data-size"),price:parseInt(selected.getAttribute("data-price"),10)};
+}
+
+function changeQty(itemNum,change){
+  var element=document.getElementById("qty"+itemNum);
+  var current=parseInt(element.innerText,10)+change;
+  if(current<1)current=1;
+  if(current>20)current=20;
+  element.innerText=current;
+  updateLiveSubtotal(itemNum);
+}
+
+function updateLiveSubtotal(itemNum){
+  var selected=getSelectedSize(itemNum);
+  var qty=parseInt(document.getElementById("qty"+itemNum).innerText,10);
+  var subtotal=selected.price*qty;
+  var el=document.getElementById("subtotal"+itemNum);
+  if(el)el.innerText=formatMoney(subtotal)+" FCFA";
+}
+
+function addToOrder(itemNum,name){
+  var selected=getSelectedSize(itemNum);
+  var quantity=parseInt(document.getElementById("qty"+itemNum).innerText,10);
+  elPasoOrder.push({name:name,size:selected.size,price:selected.price,quantity:quantity});
+  updateOrderDisplay();
+  var confirmation=document.getElementById("added"+itemNum);
+  if(confirmation){confirmation.style.display="block";setTimeout(function(){confirmation.style.display="none"},2000)}
+}
+
+function formatMoney(number){return number.toLocaleString("en-US")}
+
+function updateOrderDisplay(){
+  var count=0,total=0;
+  for(var i=0;i<elPasoOrder.length;i++){count+=elPasoOrder[i].quantity;total+=elPasoOrder[i].price*elPasoOrder[i].quantity}
+  document.getElementById("elpasoCartCount").innerText=count;
+  document.getElementById("elpasoCartTotalInline").innerText=formatMoney(total)+" FCFA";
+  var container=document.getElementById("elpasoCartItems");
+  if(elPasoOrder.length===0){
+    container.innerHTML='<div class="elpaso-empty-cart">Your order is currently empty.</div>';
+  }else{
+    var html="";
+    for(var j=0;j<elPasoOrder.length;j++){
+      var item=elPasoOrder[j];
+      var itemTotal=item.price*item.quantity;
+      html+='<div class="elpaso-cart-item"><div class="elpaso-cart-item-name">'+item.quantity+' x '+item.name+'</div><div class="elpaso-cart-item-details">'+item.size+' - '+formatMoney(item.price)+' FCFA each<div class="item-subtotal">Subtotal: '+formatMoney(itemTotal)+' FCFA</div></div><button type="button" class="elpaso-cart-item-remove" onclick="removeOrderItem('+j+')">REMOVE</button></div>';
+    }
+    container.innerHTML=html;
+  }
+  document.getElementById("elpasoCartTotal").innerText="TOTAL: "+formatMoney(total)+" FCFA";
+}
+
+function removeOrderItem(index){elPasoOrder.splice(index,1);updateOrderDisplay()}
+
+function openOrderPanel(){
+  updateOrderDisplay();
+  document.getElementById("elpasoCartOverlay").style.display="block";
+  document.body.style.overflow="hidden";
+}
+
+function closeOrderPanel(){
+  document.getElementById("elpasoCartOverlay").style.display="none";
+  document.body.style.overflow="";
+}
+
+function sendOrderToWhatsApp(){
+  if(elPasoOrder.length===0){alert("Please add at least one meal to your order.");return}
+  var customerName=document.getElementById("elpasoCustomerName").value.trim();
+  var customerDestination=document.getElementById("elpasoCustomerLocation").value.trim();
+  var customerNote=document.getElementById("elpasoCustomerNote").value.trim();
+  var lines=[];
+  lines.push("EL PASO RESTAURANT");
+  lines.push("NEW ORDER");
+  lines.push("");
+  if(customerName)lines.push("Name: "+customerName);
+  if(customerDestination)lines.push("Destination: "+customerDestination);
+  lines.push("");
+  lines.push("ORDER:");
+  var total=0;
+  for(var i=0;i<elPasoOrder.length;i++){
+    var item=elPasoOrder[i];
+    var itemTotal=item.price*item.quantity;
+    total+=itemTotal;
+    var safeName=item.name.replace(/&/g,"and");
+    lines.push(item.quantity+" x "+safeName+" ("+item.size+") = "+formatMoney(itemTotal)+" FCFA");
+  }
+  lines.push("");
+  lines.push("TOTAL: "+formatMoney(total)+" FCFA");
+  if(customerNote){lines.push("");lines.push("Notes: "+customerNote)}
+  window.open("https://wa.me/237678639128?text="+encodeURIComponent(lines.join("\n")),"_blank");
+}
+</script>
+
+</body>
+</html>

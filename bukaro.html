@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Paso Bukaro</title>
+<style>
+.elpaso-bukaro{width:100%;max-width:800px;margin:0 auto;padding:10px 14px 140px;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;color:#222;line-height:1.6}
+.elpaso-bukaro *{box-sizing:border-box}
+.back-link{display:inline-block;margin-bottom:14px;padding:9px 14px;background:#eef0ff;color:#2b00fe !important;text-decoration:none !important;border-radius:8px;font-size:14px;font-weight:700;border:1px solid #d5d9ff}
+.back-link:hover{background:#e0e4ff}
+.elpaso-bukaro-notice{margin:5px auto 25px;padding:12px 14px;background:#fff5f5;border-left:4px solid #d60000;border-radius:5px;color:#d60000;font-size:15px;font-weight:700;text-align:center}
+.elpaso-bukaro-title{margin:0 0 25px;color:#2b00fe;font-size:30px;font-weight:700;text-align:center;line-height:1.2}
+.elpaso-drink{margin:0 0 30px;text-align:center}
+.elpaso-drink-name{margin:0 0 5px;color:#2b00fe;font-size:24px;font-weight:700;line-height:1.3}
+.elpaso-drink-price{margin:0 0 15px;font-size:18px;font-weight:700;color:#222}
+.elpaso-drink-image{display:block;width:100%;max-width:669px;height:auto;margin:0 auto 15px;border-radius:10px}
+.elpaso-drink-order{max-width:460px;margin:0 auto;display:flex;gap:10px;align-items:stretch}
+.elpaso-quantity{display:flex;align-items:center;border:2px solid #d5dbe4;border-radius:10px;overflow:hidden;background:#fff;flex-shrink:0}
+.elpaso-quantity button{width:46px;height:52px;border:none;background:#f2f4f8;color:#2b00fe;font-size:24px;font-weight:700;cursor:pointer}
+.elpaso-quantity span{min-width:46px;text-align:center;font-weight:800;font-size:18px;color:#222;display:inline-block}
+.elpaso-add-button{flex:1;padding:14px 18px;border:none;border-radius:10px;background:#2b00fe;color:#fff;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:0.3px}
+.elpaso-add-button:active{transform:scale(0.98)}
+.elpaso-added-message{display:none;margin-top:10px;padding:10px 14px;text-align:center;background:#e8f7ee;color:#16803c;font-size:14px;font-weight:700;border-radius:8px}
+.elpaso-bukaro-divider{height:1px;background:#ddd;margin:30px 0}
+.bukaro-drinks-title{margin:0 0 6px;text-align:center;color:#2b00fe;font-size:28px;font-weight:700;line-height:1.2}
+.bukaro-drinks-subtitle{margin:0 0 18px;text-align:center;color:#555;font-size:14px;font-weight:600}
+.bukaro-drinks-list{width:100%}
+.bukaro-drink{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:52px;padding:10px 4px;border-bottom:1px solid #e5e5e5;gap:10px;flex-wrap:wrap}
+.bukaro-drink-name{flex:1 1 auto;min-width:0;font-size:16px;line-height:1.35;font-weight:500;text-align:left;overflow-wrap:anywhere}
+.bukaro-drink-price{flex:0 0 auto;white-space:nowrap;text-align:right;color:#2b00fe;font-size:16px;line-height:1.35;font-weight:700}
+.bukaro-drink-controls{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.bukaro-qty-btn{width:36px;height:36px;border:1px solid #d5dbe4;border-radius:8px;background:#f8f9fc;color:#2b00fe;font-size:18px;font-weight:700;cursor:pointer;line-height:1;padding:0}
+.bukaro-qty-btn:active{background:#e3e9f3}
+.bukaro-qty-num{min-width:28px;text-align:center;font-weight:800;font-size:15px;color:#222}
+.bukaro-add-btn{padding:9px 14px;border:none;border-radius:8px;background:#2b00fe;color:#fff;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap;letter-spacing:0.3px}
+.bukaro-add-btn:active{transform:scale(0.97)}
+.bukaro-added{color:#16803c;font-size:12px;font-weight:700;display:none}
+.elpaso-bukaro-contact{margin:35px 0 25px;text-align:center}
+.elpaso-bukaro-contact h2{color:#222;font-size:20px;margin:0 0 18px}
+.elpaso-bukaro-contact a{display:inline-block;background:#2b00fe;color:#fff !important;text-decoration:none !important;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.18);font-size:18px;font-weight:700;padding:14px 26px}
+.elpaso-bukaro-contact-number{color:#555;font-size:16px;margin-top:12px}
+.elpaso-bukaro-cart-button{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9998;width:calc(100% - 28px);max-width:460px;padding:14px 18px;border:none;border-radius:14px;background:#2b00fe;color:#fff;font-size:15px;font-weight:800;box-shadow:0 6px 20px rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.elpaso-bukaro-cart-button .cart-left{display:flex;align-items:center;gap:8px}
+.elpaso-bukaro-cart-count{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border-radius:13px;background:#fff;color:#2b00fe;font-size:13px;font-weight:800}
+.elpaso-bukaro-cart-total-inline{font-size:15px;font-weight:800}
+.elpaso-bukaro-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);padding:15px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.elpaso-bukaro-panel{width:100%;max-width:520px;margin:20px auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,0.35)}
+.elpaso-bukaro-panel-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+.elpaso-bukaro-panel-header h2{margin:0;color:#2b00fe;font-size:21px}
+.elpaso-bukaro-close{width:38px;height:38px;border:none;border-radius:50%;background:#f0f0f0;color:#333;font-size:20px;font-weight:700;cursor:pointer;line-height:1}
+.elpaso-bukaro-items{margin-bottom:15px;max-height:40vh;overflow-y:auto}
+.elpaso-bukaro-item{padding:14px 0;border-bottom:1px solid #eee}
+.elpaso-bukaro-item:last-child{border-bottom:none}
+.elpaso-bukaro-item-name{font-weight:800;color:#222;font-size:15px;margin-bottom:4px}
+.elpaso-bukaro-item-details{color:#555;font-size:13.5px;line-height:1.5}
+.elpaso-bukaro-item-details .item-subtotal{color:#2b00fe;font-weight:700;margin-top:3px}
+.elpaso-bukaro-item-remove{margin-top:8px;padding:6px 12px;border:none;background:#ffe8e8;color:#c00000;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer}
+.elpaso-bukaro-total{padding:16px 0;text-align:right;font-size:21px;font-weight:800;color:#2b00fe;border-bottom:1px solid #eee;margin-bottom:16px}
+.elpaso-bukaro-empty{padding:30px 10px;text-align:center;color:#888;font-size:15px}
+.elpaso-bukaro-input{width:100%;padding:13px 14px;margin-bottom:10px;border:2px solid #d5dbe4;border-radius:10px;font-size:15px;font-family:Arial,Helvetica,sans-serif}
+.elpaso-bukaro-input:focus,.elpaso-bukaro-note:focus{outline:none;border-color:#2b00fe}
+.elpaso-bukaro-note{width:100%;min-height:80px;padding:13px 14px;margin-bottom:14px;border:2px solid #d5dbe4;border-radius:10px;font-size:15px;font-family:Arial,Helvetica,sans-serif;resize:vertical}
+.elpaso-bukaro-send{width:100%;padding:15px;border:none;border-radius:10px;background:#25D366;color:#fff;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:0.3px}
+@media screen and (max-width:480px){
+.elpaso-bukaro{padding:8px 12px 130px}
+.elpaso-bukaro-notice{font-size:14px;padding:11px 10px}
+.elpaso-bukaro-title{font-size:26px}
+.elpaso-drink-name{font-size:21px}
+.elpaso-drink-price{font-size:17px}
+.bukaro-drinks-title{font-size:24px;margin-bottom:5px}
+.bukaro-drinks-subtitle{font-size:13px;margin-bottom:12px}
+.bukaro-drink{min-height:58px;padding:10px 2px;gap:6px}
+.bukaro-drink-name{font-size:14px;flex:1 1 100%}
+.bukaro-drink-price{font-size:14px}
+.bukaro-drink-controls{width:100%;justify-content:flex-end;margin-top:4px}
+.bukaro-add-btn{font-size:12px;padding:8px 12px}
+.elpaso-bukaro-contact a{font-size:17px;padding:13px 22px}
+.elpaso-bukaro-contact-number{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<div class="elpaso-bukaro">
+
+  <a class="back-link" href="index.html">← Back to Menu</a>
+
+  <div class="elpaso-bukaro-notice">PLEASE NOTE: THESE PRICES ARE STRICTLY FOR OUR OUTSIDE BAR / BUKARO. PRICES IN THE HOTEL ROOMS MAY BE DIFFERENT.</div>
+
+  <h1 class="elpaso-bukaro-title">BUKARO DRINKS</h1>
+
+  <div class="elpaso-drink">
+    <h2 class="elpaso-drink-name">ALMA BRUT</h2>
+    <p class="elpaso-drink-price">40,000 FCFA</p>
+    <img alt="Alma Brut" class="elpaso-drink-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791298832/IMG_3420.jpg">
+    <div class="elpaso-drink-order">
+      <div class="elpaso-quantity">
+        <button onclick="bukaroQty('fqty1',-1)" type="button">-</button>
+        <span id="fqty1">1</span>
+        <button onclick="bukaroQty('fqty1',1)" type="button">+</button>
+      </div>
+      <button class="elpaso-add-button" onclick="bukaroAdd('ALMA BRUT',40000,'fqty1','fadd1')" type="button">ADD TO ORDER</button>
+    </div>
+    <div class="elpaso-added-message" id="fadd1">Added to your order</div>
+  </div>
+
+  <div class="elpaso-bukaro-divider"></div>
+
+  <div class="elpaso-drink">
+    <h2 class="elpaso-drink-name">AMOUR DE PARIS</h2>
+    <p class="elpaso-drink-price">40,000 FCFA</p>
+    <img alt="Amour de Paris" class="elpaso-drink-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791298871/IMG_3418.jpg">
+    <div class="elpaso-drink-order">
+      <div class="elpaso-quantity">
+        <button onclick="bukaroQty('fqty2',-1)" type="button">-</button>
+        <span id="fqty2">1</span>
+        <button onclick="bukaroQty('fqty2',1)" type="button">+</button>
+      </div>
+      <button class="elpaso-add-button" onclick="bukaroAdd('AMOUR DE PARIS',40000,'fqty2','fadd2')" type="button">ADD TO ORDER</button>
+    </div>
+    <div class="elpaso-added-message" id="fadd2">Added to your order</div>
+  </div>
+
+  <div class="elpaso-bukaro-divider"></div>
+
+  <div class="elpaso-drink">
+    <h2 class="elpaso-drink-name">BLACK LABEL</h2>
+    <p class="elpaso-drink-price">35,000 FCFA</p>
+    <img alt="Black Label" class="elpaso-drink-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791297007/IMG_1122.png">
+    <div class="elpaso-drink-order">
+      <div class="elpaso-quantity">
+        <button onclick="bukaroQty('fqty3',-1)" type="button">-</button>
+        <span id="fqty3">1</span>
+        <button onclick="bukaroQty('fqty3',1)" type="button">+</button>
+      </div>
+      <button class="elpaso-add-button" onclick="bukaroAdd('BLACK LABEL',35000,'fqty3','fadd3')" type="button">ADD TO ORDER</button>
+    </div>
+    <div class="elpaso-added-message" id="fadd3">Added to your order</div>
+  </div>
+
+  <div class="elpaso-bukaro-divider"></div>
+
+  <div class="elpaso-drink">
+    <h2 class="elpaso-drink-name">CHIVAS REGAL</h2>
+    <p class="elpaso-drink-price">30,000 FCFA</p>
+    <img alt="Chivas Regal" class="elpaso-drink-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791296991/IMG_4054.jpg">
+    <div class="elpaso-drink-order">
+      <div class="elpaso-quantity">
+        <button onclick="bukaroQty('fqty4',-1)" type="button">-</button>
+        <span id="fqty4">1</span>
+        <button onclick="bukaroQty('fqty4',1)" type="button">+</button>
+      </div>
+      <button class="elpaso-add-button" onclick="bukaroAdd('CHIVAS REGAL',30000,'fqty4','fadd4')" type="button">ADD TO ORDER</button>
+    </div>
+    <div class="elpaso-added-message" id="fadd4">Added to your order</div>
+  </div>
+
+  <div class="elpaso-bukaro-divider"></div>
+
+  <div class="elpaso-drink">
+    <h2 class="elpaso-drink-name">HEINEKEN</h2>
+    <p class="elpaso-drink-price">1,000 FCFA</p>
+    <img alt="Heineken" class="elpaso-drink-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791297097/IMG_1092.png">
+    <div class="elpaso-drink-order">
+      <div class="elpaso-quantity">
+        <button onclick="bukaroQty('fqty5',-1)" type="button">-</button>
+        <span id="fqty5">1</span>
+        <button onclick="bukaroQty('fqty5',1)" type="button">+</button>
+      </div>
+      <button class="elpaso-add-button" onclick="bukaroAdd('HEINEKEN',1000,'fqty5','fadd5')" type="button">ADD TO ORDER</button>
+    </div>
+    <div class="elpaso-added-message" id="fadd5">Added to your order</div>
+  </div>
+
+  <div class="elpaso-bukaro-divider"></div>
+
+  <div class="elpaso-drink">
+    <h2 class="elpaso-drink-name">PAUL MASON</h2>
+    <p class="elpaso-drink-price">40,000 FCFA</p>
+    <img alt="Paul Mason" class="elpaso-drink-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791298867/IMG_3417.jpg">
+    <div class="elpaso-drink-order">
+      <div class="elpaso-quantity">
+        <button onclick="bukaroQty('fqty6',-1)" type="button">-</button>
+        <span id="fqty6">1</span>
+        <button onclick="bukaroQty('fqty6',1)" type="button">+</button>
+      </div>
+      <button class="elpaso-add-button" onclick="bukaroAdd('PAUL MASON',40000,'fqty6','fadd6')" type="button">ADD TO ORDER</button>
+    </div>
+    <div class="elpaso-added-message" id="fadd6">Added to your order</div>
+  </div>
+
+  <div class="elpaso-bukaro-divider"></div>
+
+  <div class="elpaso-drink">
+    <h2 class="elpaso-drink-name">JACK DANIEL'S</h2>
+    <p class="elpaso-drink-price">40,000 FCFA</p>
+    <img alt="Jack Daniel's" class="elpaso-drink-image" src="https://res.cloudinary.com/kqymjysn/image/upload/v1791296987/IMG_4062.png">
+    <div class="elpaso-drink-order">
+      <div class="elpaso-quantity">
+        <button onclick="bukaroQty('fqty7',-1)" type="button">-</button>
+        <span id="fqty7">1</span>
+        <button onclick="bukaroQty('fqty7',1)" type="button">+</button>
+      </div>
+      <button class="elpaso-add-button" onclick="bukaroAdd('JACK DANIEL\'S',40000,'fqty7','fadd7')" type="button">ADD TO ORDER</button>
+    </div>
+    <div class="elpaso-added-message" id="fadd7">Added to your order</div>
+  </div>
+
+  <div class="elpaso-bukaro-divider"></div>
+
+  <div class="bukaro-drinks">
+    <h2 class="bukaro-drinks-title">OTHER DRINKS</h2>
+    <div class="bukaro-drinks-subtitle">Price in FCFA</div>
+    <div class="bukaro-drinks-list">
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Agor</span><span class="bukaro-drink-price">10,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq1',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq1">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq1',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Agor',10000,'oq1','oadd1')" type="button">ADD</button><span class="bukaro-added" id="oadd1">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Baileys</span><span class="bukaro-drink-price">15,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq2',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq2">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq2',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Baileys',15000,'oq2','oadd2')" type="button">ADD</button><span class="bukaro-added" id="oadd2">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Bavaria</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq3',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq3">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq3',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Bavaria',1000,'oq3','oadd3')" type="button">ADD</button><span class="bukaro-added" id="oadd3">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Beaufort Lager</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq4',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq4">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq4',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Beaufort Lager',900,'oq4','oadd4')" type="button">ADD</button><span class="bukaro-added" id="oadd4">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Beaufort Light</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq5',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq5">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq5',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Beaufort Light',900,'oq5','oadd5')" type="button">ADD</button><span class="bukaro-added" id="oadd5">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Best</span><span class="bukaro-drink-price">5,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq6',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq6">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq6',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Best',5000,'oq6','oadd6')" type="button">ADD</button><span class="bukaro-added" id="oadd6">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Big Guinness</span><span class="bukaro-drink-price">1,500</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq7',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq7">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq7',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Big Guinness',1500,'oq7','oadd7')" type="button">ADD</button><span class="bukaro-added" id="oadd7">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Bisse</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq8',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq8">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq8',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Bisse',900,'oq8','oadd8')" type="button">ADD</button><span class="bukaro-added" id="oadd8">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Blue Label</span><span class="bukaro-drink-price">80,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq9',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq9">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq9',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Blue Label',80000,'oq9','oadd9')" type="button">ADD</button><span class="bukaro-added" id="oadd9">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Booster Can</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq10',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq10">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq10',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Booster Can',1000,'oq10','oadd10')" type="button">ADD</button><span class="bukaro-added" id="oadd10">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Booster Cola</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq11',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq11">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq11',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Booster Cola',900,'oq11','oadd11')" type="button">ADD</button><span class="bukaro-added" id="oadd11">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Booster Gin Tonic</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq12',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq12">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq12',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Booster Gin Tonic',900,'oq12','oadd12')" type="button">ADD</button><span class="bukaro-added" id="oadd12">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Casa Cavin</span><span class="bukaro-drink-price">2,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq13',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq13">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq13',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Casa Cavin',2000,'oq13','oadd13')" type="button">ADD</button><span class="bukaro-added" id="oadd13">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Castel Milk Stout</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq14',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq14">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq14',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Castel Milk Stout',900,'oq14','oadd14')" type="button">ADD</button><span class="bukaro-added" id="oadd14">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Castel</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq15',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq15">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq15',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Castel',900,'oq15','oadd15')" type="button">ADD</button><span class="bukaro-added" id="oadd15">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Chill</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq16',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq16">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq16',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Chill',900,'oq16','oadd16')" type="button">ADD</button><span class="bukaro-added" id="oadd16">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Clan Campbell</span><span class="bukaro-drink-price">150,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq17',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq17">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq17',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Clan Campbell',150000,'oq17','oadd17')" type="button">ADD</button><span class="bukaro-added" id="oadd17">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Coca-Cola</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq18',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq18">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq18',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Coca-Cola',700,'oq18','oadd18')" type="button">ADD</button><span class="bukaro-added" id="oadd18">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Damati</span><span class="bukaro-drink-price">7,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq19',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq19">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq19',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Damati',7000,'oq19','oadd19')" type="button">ADD</button><span class="bukaro-added" id="oadd19">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Djino Cocktail</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq20',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq20">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq20',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Djino Cocktail',900,'oq20','oadd20')" type="button">ADD</button><span class="bukaro-added" id="oadd20">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Doppel</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq21',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq21">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq21',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Doppel',900,'oq21','oadd21')" type="button">ADD</button><span class="bukaro-added" id="oadd21">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Export</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq22',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq22">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq22',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Export',900,'oq22','oadd22')" type="button">ADD</button><span class="bukaro-added" id="oadd22">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Grenadine UCB</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq23',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq23">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq23',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Grenadine UCB',700,'oq23','oadd23')" type="button">ADD</button><span class="bukaro-added" id="oadd23">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Guinness Smooth (big)</span><span class="bukaro-drink-price">1,500</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq24',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq24">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq24',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Guinness Smooth (big)',1500,'oq24','oadd24')" type="button">ADD</button><span class="bukaro-added" id="oadd24">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Guinness Smooth (small)</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq25',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq25">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq25',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Guinness Smooth (small)',1000,'oq25','oadd25')" type="button">ADD</button><span class="bukaro-added" id="oadd25">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Harp</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq26',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq26">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq26',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Harp',1000,'oq26','oadd26')" type="button">ADD</button><span class="bukaro-added" id="oadd26">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Heineken</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq27',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq27">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq27',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Heineken',1000,'oq27','oadd27')" type="button">ADD</button><span class="bukaro-added" id="oadd27">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Hennessy</span><span class="bukaro-drink-price">40,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq28',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq28">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq28',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Hennessy',40000,'oq28','oadd28')" type="button">ADD</button><span class="bukaro-added" id="oadd28">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Ice Black</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq29',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq29">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq29',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Ice Black',900,'oq29','oadd29')" type="button">ADD</button><span class="bukaro-added" id="oadd29">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Ice Pineapple</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq30',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq30">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq30',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Ice Pineapple',1000,'oq30','oadd30')" type="button">ADD</button><span class="bukaro-added" id="oadd30">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Kadji</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq31',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq31">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq31',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Kadji',900,'oq31','oadd31')" type="button">ADD</button><span class="bukaro-added" id="oadd31">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Malta Guinness</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq32',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq32">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq32',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Malta Guinness',700,'oq32','oadd32')" type="button">ADD</button><span class="bukaro-added" id="oadd32">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Manyang</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq33',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq33">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq33',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Manyang',700,'oq33','oadd33')" type="button">ADD</button><span class="bukaro-added" id="oadd33">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Merlot</span><span class="bukaro-drink-price">2,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq34',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq34">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq34',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Merlot',2000,'oq34','oadd34')" type="button">ADD</button><span class="bukaro-added" id="oadd34">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Monkey Shoulder</span><span class="bukaro-drink-price">40,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq35',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq35">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq35',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Monkey Shoulder',40000,'oq35','oadd35')" type="button">ADD</button><span class="bukaro-added" id="oadd35">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Origin</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq36',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq36">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq36',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Origin',1000,'oq36','oadd36')" type="button">ADD</button><span class="bukaro-added" id="oadd36">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Power Malt</span><span class="bukaro-drink-price">800</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq37',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq37">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq37',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Power Malt',800,'oq37','oadd37')" type="button">ADD</button><span class="bukaro-added" id="oadd37">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Reaktor</span><span class="bukaro-drink-price">500</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq38',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq38">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq38',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Reaktor',500,'oq38','oadd38')" type="button">ADD</button><span class="bukaro-added" id="oadd38">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Red Fruits</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq39',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq39">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq39',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Red Fruits',700,'oq39','oadd39')" type="button">ADD</button><span class="bukaro-added" id="oadd39">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Red Label</span><span class="bukaro-drink-price">20,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq40',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq40">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq40',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Red Label',20000,'oq40','oadd40')" type="button">ADD</button><span class="bukaro-added" id="oadd40">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Singleton</span><span class="bukaro-drink-price">35,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq41',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq41">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq41',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Singleton',35000,'oq41','oadd41')" type="button">ADD</button><span class="bukaro-added" id="oadd41">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Small Guinness</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq42',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq42">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq42',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Small Guinness',900,'oq42','oadd42')" type="button">ADD</button><span class="bukaro-added" id="oadd42">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Special Pamplemousse</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq43',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq43">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq43',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Special Pamplemousse',700,'oq43','oadd43')" type="button">ADD</button><span class="bukaro-added" id="oadd43">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Supermont</span><span class="bukaro-drink-price">500</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq44',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq44">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq44',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Supermont',500,'oq44','oadd44')" type="button">ADD</button><span class="bukaro-added" id="oadd44">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Tangui</span><span class="bukaro-drink-price">500</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq45',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq45">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq45',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Tangui',500,'oq45','oadd45')" type="button">ADD</button><span class="bukaro-added" id="oadd45">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Top Ananas</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq46',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq46">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq46',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Top Ananas',700,'oq46','oadd46')" type="button">ADD</button><span class="bukaro-added" id="oadd46">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Top Orange</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq47',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq47">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq47',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Top Orange',700,'oq47','oadd47')" type="button">ADD</button><span class="bukaro-added" id="oadd47">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Top Pamplemousse</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq48',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq48">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq48',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Top Pamplemousse',700,'oq48','oadd48')" type="button">ADD</button><span class="bukaro-added" id="oadd48">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Top Tonic</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq49',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq49">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq49',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Top Tonic',700,'oq49','oadd49')" type="button">ADD</button><span class="bukaro-added" id="oadd49">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">UCB Cocktail (bottle)</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq50',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq50">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq50',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('UCB Cocktail (bottle)',700,'oq50','oadd50')" type="button">ADD</button><span class="bukaro-added" id="oadd50">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">UCB Special (bottle)</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq51',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq51">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq51',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('UCB Special (bottle)',700,'oq51','oadd51')" type="button">ADD</button><span class="bukaro-added" id="oadd51">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">UCB Special Cocktail</span><span class="bukaro-drink-price">700</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq52',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq52">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq52',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('UCB Special Cocktail',700,'oq52','oadd52')" type="button">ADD</button><span class="bukaro-added" id="oadd52">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Vanpur Malt</span><span class="bukaro-drink-price">1,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq53',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq53">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq53',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Vanpur Malt',1000,'oq53','oadd53')" type="button">ADD</button><span class="bukaro-added" id="oadd53">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Vimto</span><span class="bukaro-drink-price">900</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq54',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq54">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq54',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Vimto',900,'oq54','oadd54')" type="button">ADD</button><span class="bukaro-added" id="oadd54">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Vital Whisky</span><span class="bukaro-drink-price">5,000</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq55',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq55">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq55',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Vital Whisky',5000,'oq55','oadd55')" type="button">ADD</button><span class="bukaro-added" id="oadd55">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Vitale</span><span class="bukaro-drink-price">300</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq56',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq56">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq56',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Vitale',300,'oq56','oadd56')" type="button">ADD</button><span class="bukaro-added" id="oadd56">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">Youzou (big bottle)</span><span class="bukaro-drink-price">800</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq57',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq57">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq57',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('Youzou (big bottle)',800,'oq57','oadd57')" type="button">ADD</button><span class="bukaro-added" id="oadd57">OK</span></div></div>
+
+      <div class="bukaro-drink"><span class="bukaro-drink-name">YouZou (small bottle)</span><span class="bukaro-drink-price">300</span><div class="bukaro-drink-controls"><button class="bukaro-qty-btn" onclick="bukaroQty('oq58',-1)" type="button">-</button><span class="bukaro-qty-num" id="oq58">1</span><button class="bukaro-qty-btn" onclick="bukaroQty('oq58',1)" type="button">+</button><button class="bukaro-add-btn" onclick="bukaroAdd('YouZou (small bottle)',300,'oq58','oadd58')" type="button">ADD</button><span class="bukaro-added" id="oadd58">OK</span></div></div>
+
+    </div>
+  </div>
+
+  <div class="elpaso-bukaro-contact">
+    <h2>Thank you for exploring our digital menu!</h2>
+    <a href="https://wa.me/237678639128" rel="noopener" target="_blank">Chat with us on WhatsApp</a>
+    <div class="elpaso-bukaro-contact-number">Direct Call: <strong>6 78 63 91 28</strong></div>
+  </div>
+
+</div>
+
+<button class="elpaso-bukaro-cart-button" onclick="bukaroOpen()" type="button">
+  <span class="cart-left">VIEW MY ORDER <span class="elpaso-bukaro-cart-count" id="bukaroCount">0</span></span>
+  <span class="elpaso-bukaro-cart-total-inline" id="bukaroTotalInline">0 FCFA</span>
+</button>
+
+<div class="elpaso-bukaro-overlay" id="bukaroOverlay">
+  <div class="elpaso-bukaro-panel">
+    <div class="elpaso-bukaro-panel-header">
+      <h2>Your Bukaro Order</h2>
+      <button class="elpaso-bukaro-close" onclick="bukaroClose()" type="button">X</button>
+    </div>
+    <div class="elpaso-bukaro-items" id="bukaroItems">
+      <div class="elpaso-bukaro-empty">Your order is currently empty.</div>
+    </div>
+    <div class="elpaso-bukaro-total" id="bukaroTotal">TOTAL: 0 FCFA</div>
+    <input class="elpaso-bukaro-input" id="bukaroName" type="text" placeholder="Your name">
+    <input class="elpaso-bukaro-input" id="bukaroDestination" type="text" placeholder="Your exact destination">
+    <textarea class="elpaso-bukaro-note" id="bukaroNote" placeholder="Special instructions (optional)"></textarea>
+    <button class="elpaso-bukaro-send" onclick="bukaroSend()" type="button">SEND ORDER TO EL PASO BUKARO</button>
+  </div>
+</div>
+
+<script>
+var bukaroOrder=[];
+
+function bukaroQty(id,change){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var current=parseInt(el.innerText,10)+change;
+  if(current<1)current=1;
+  if(current>20)current=20;
+  el.innerText=current;
+}
+
+function bukaroAdd(name,price,qtyId,confirmId){
+  var qtyEl=document.getElementById(qtyId);
+  if(!qtyEl)return;
+  var qty=parseInt(qtyEl.innerText,10);
+  bukaroOrder.push({name:name,price:price,quantity:qty});
+  bukaroRender();
+  var c=document.getElementById(confirmId);
+  if(c){c.style.display=(confirmId.indexOf("fadd")===0)?"block":"inline";setTimeout(function(){c.style.display="none"},1500)}
+}
+
+function bukaroRender(){
+  var count=0,total=0;
+  for(var i=0;i<bukaroOrder.length;i++){count+=bukaroOrder[i].quantity;total+=bukaroOrder[i].price*bukaroOrder[i].quantity}
+  document.getElementById("bukaroCount").innerText=count;
+  document.getElementById("bukaroTotalInline").innerText=total.toLocaleString("en-US")+" FCFA";
+  var container=document.getElementById("bukaroItems");
+  if(bukaroOrder.length===0){
+    container.innerHTML='<div class="elpaso-bukaro-empty">Your order is currently empty.</div>';
+  }else{
+    var html="";
+    for(var j=0;j<bukaroOrder.length;j++){
+      var item=bukaroOrder[j];
+      var sub=item.price*item.quantity;
+      html+='<div class="elpaso-bukaro-item"><div class="elpaso-bukaro-item-name">'+item.quantity+' x '+item.name+'</div><div class="elpaso-bukaro-item-details">'+item.price.toLocaleString("en-US")+' FCFA each<div class="item-subtotal">Subtotal: '+sub.toLocaleString("en-US")+' FCFA</div></div><button type="button" class="elpaso-bukaro-item-remove" onclick="bukaroRemove('+j+')">REMOVE</button></div>';
+    }
+    container.innerHTML=html;
+  }
+  document.getElementById("bukaroTotal").innerText="TOTAL: "+total.toLocaleString("en-US")+" FCFA";
+}
+
+function bukaroRemove(index){bukaroOrder.splice(index,1);bukaroRender()}
+
+function bukaroOpen(){
+  bukaroRender();
+  document.getElementById("bukaroOverlay").style.display="block";
+  document.body.style.overflow="hidden";
+}
+
+function bukaroClose(){
+  document.getElementById("bukaroOverlay").style.display="none";
+  document.body.style.overflow="";
+}
+
+function bukaroSend(){
+  if(bukaroOrder.length===0){alert("Please add at least one drink to your order.");return}
+  var name=document.getElementById("bukaroName").value.trim();
+  var destination=document.getElementById("bukaroDestination").value.trim();
+  var note=document.getElementById("bukaroNote").value.trim();
+  var message="EL PASO BUKARO\n";
+  message+="NEW ORDER\n\n";
+  if(name)message+="Name: "+name+"\n";
+  if(destination)message+="Destination: "+destination+"\n";
+  message+="\nORDER:\n";
+  var total=0;
+  for(var i=0;i<bukaroOrder.length;i++){
+    var item=bukaroOrder[i];
+    var sub=item.price*item.quantity;
+    total+=sub;
+    message+="- "+item.quantity+" x "+item.name+" = "+sub.toLocaleString("en-US")+" FCFA\n";
+  }
+  message+="\nTOTAL: "+total.toLocaleString("en-US")+" FCFA";
+  if(note)message+="\n\nNotes: "+note;
+  window.open("https://wa.me/237678639128?text="+encodeURIComponent(message),"_blank");
+}
+</script>
+
+</body>
+</html>
