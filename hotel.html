@@ -149,6 +149,7 @@
         </select>
       </div>
       <div class="form-group"><label>Special Request</label><input id="specialRequest" type="text"></div>
+      <div class="form-group full"><label>Referral Code (optional)</label><input id="referralCode" type="text" placeholder="e.g. NGUNI142"></div>
     </div>
 
     <div class="booking-summary">
@@ -221,6 +222,7 @@ function sendHotelBooking(){
   var checkOut=document.getElementById("checkOut").value;
   var guests=document.getElementById("guestCount").value;
   var specialRequest=document.getElementById("specialRequest").value.trim();
+  var referralCode=document.getElementById("referralCode").value.trim();
 
   if(!name){alert("Please enter your full name.");return}
   if(!phone){alert("Please enter your phone number.");return}
@@ -250,6 +252,7 @@ function sendHotelBooking(){
   message+="Number of guests: "+guests+"\n\n";
   message+="ESTIMATED TOTAL: "+formatMoney(total)+" FCFA\n\n";
   if(specialRequest){message+="SPECIAL REQUEST\n"+specialRequest+"\n\n"}
+  if(referralCode){message+="REFERRAL CODE\n"+referralCode.toUpperCase()+"\n\n"}
   message+="Please confirm availability and send MoMo number.";
 
   window.open("https://wa.me/237678639128?text="+encodeURIComponent(message),"_blank");
