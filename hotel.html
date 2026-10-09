@@ -148,8 +148,8 @@
           <option value="10">10 Guests</option>
         </select>
       </div>
-      <div class="form-group"><label>Special Request</label><input id="specialRequest" type="text"></div>
-      <div class="form-group full"><label>Referral Code (optional)</label><input id="referralCode" type="text" placeholder="e.g. NGUNI142"></div>
+      <div class="form-group"><label>Referral Code (optional)</label><input id="referralCode" type="text" placeholder="e.g. NGUNI142"></div>
+      <div class="form-group full"><label>Special Request</label><input id="specialRequest" type="text" placeholder="e.g. I will stay above checkout time"></div>
     </div>
 
     <div class="booking-summary">
@@ -251,8 +251,8 @@ function sendHotelBooking(){
   if(isEventBooking){message+="Booking duration: 1 day\n"}else{message+="Number of nights: "+nights+"\n"}
   message+="Number of guests: "+guests+"\n\n";
   message+="ESTIMATED TOTAL: "+formatMoney(total)+" FCFA\n\n";
-  if(specialRequest){message+="SPECIAL REQUEST\n"+specialRequest+"\n\n"}
   if(referralCode){message+="REFERRAL CODE\n"+referralCode.toUpperCase()+"\n\n"}
+  if(specialRequest){message+="SPECIAL REQUEST\n"+specialRequest+"\n\n"}
   message+="Please confirm availability and send MoMo number.";
 
   window.open("https://wa.me/237678639128?text="+encodeURIComponent(message),"_blank");
