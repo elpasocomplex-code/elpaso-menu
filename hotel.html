@@ -185,7 +185,7 @@ var isEventBooking=false;
 /* =========================================
    PARTNER REFERRAL LOOKUP TABLE
    Add or edit partners here.
-   Format: "code":"whatsapp-number"
+   Format: "code":"phone-number"
    ========================================= */
 var partnerNumbers={
   "PIUS101":"237673185476",
@@ -261,7 +261,7 @@ function sendHotelBooking(){
 
   var total=nights*selectedRate;
 
-  /* ---------- FULL MESSAGE TO RECEPTION ---------- */
+  /* ---------- FULL MESSAGE TO RECEPTION (WhatsApp) ---------- */
   var message="";
   message+="EL PASO HOTEL\n";
   message+="NEW BOOKING REQUEST\n\n";
@@ -281,15 +281,14 @@ function sendHotelBooking(){
   if(specialRequest){message+="SPECIAL REQUEST\n"+specialRequest+"\n\n"}
   message+="Please confirm availability and send MoMo number.";
 
-  /* ---------- OPEN RECEPTION TAB ---------- */
+  /* ---------- OPEN RECEPTION WHATSAPP TAB ---------- */
   window.open("https://wa.me/237678639128?text="+encodeURIComponent(message),"_blank");
 
-  /* ---------- OPEN PARTNER TAB (if code matches) ---------- */
+  /* ---------- SEND SMS TO PARTNER (if code matches) ---------- */
   if(referralCode && partnerNumbers[referralCode]){
 
     var partnerMessage="";
-    partnerMessage+="EL PASO HOTEL\n";
-    partnerMessage+="REFERRAL BOOKING CONFIRMED\n\n";
+    partnerMessage+="EL PASO HOTEL - REFERRAL BOOKING CONFIRMED\n\n";
     partnerMessage+="Your code was used for a new booking.\n\n";
     partnerMessage+="Guest: "+name+"\n";
     partnerMessage+="Phone: "+phone+"\n";
@@ -298,11 +297,17 @@ function sendHotelBooking(){
     partnerMessage+="Check-out: "+formatDate(checkOut)+"\n";
     if(isEventBooking){partnerMessage+="Duration: 1 day\n"}else{partnerMessage+="Nights: "+nights+"\n"}
     partnerMessage+="\nReferral Code: "+referralCode+"\n\n";
-    partnerMessage+="Thank you - this booking will be counted for your commission.";
+    partnerMessage+="This booking will be counted for your commission.";
 
-    setTimeout(function(){
-      window.open("https://wa.me/"+partnerNumbers[referralCode]+"?text="+encodeURIComponent(partnerMessage),"_blank");
-    },800);
+    var smsLink="sms:+"+partnerNumbers[referralCode]+"?&body="+encodeURIComponent(partnerMessage);
+
+    /* Use an invisible anchor click so most phones treat it as a real navigation */
+    var smsAnchor=document.createElement("a");
+    smsAnchor.href=smsLink;
+    smsAnchor.style.display="none";
+    document.body.appendChild(smsAnchor);
+    smsAnchor.click();
+    setTimeout(function(){document.body.removeChild(smsAnchor)},1000);
   }
 }
 </script>
